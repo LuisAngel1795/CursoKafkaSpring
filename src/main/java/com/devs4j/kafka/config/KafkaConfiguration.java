@@ -40,16 +40,16 @@ public class KafkaConfiguration {
     @Bean
     public KafkaTemplate<String, String> kafkaTemplate(){
         DefaultKafkaProducerFactory<String, String> defaultKafkaProducerFactory = new DefaultKafkaProducerFactory<>(producerProperties());
-        //defaultKafkaProducerFactory.addListener(new MicrometerProducerListener<String, String>(meterRegistry()));
+        defaultKafkaProducerFactory.addListener(new MicrometerProducerListener<String, String>(meterRegistry()));
         KafkaTemplate<String, String> template = new KafkaTemplate<>(defaultKafkaProducerFactory);
         return template;
     }
 
-//    @Bean
-//    public MeterRegistry meterRegistry(){
-//        PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
-//        return prometheusMeterRegistry;
-//    }
+    @Bean
+    public MeterRegistry meterRegistry(){
+        PrometheusMeterRegistry prometheusMeterRegistry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
+        return prometheusMeterRegistry;
+    }
     @Bean
     public ConsumerFactory<String, String> ConsumerFactory(){
         return new DefaultKafkaConsumerFactory<>(consumerProperties());
